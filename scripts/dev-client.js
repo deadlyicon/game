@@ -36,7 +36,7 @@ for (const prefix of proxyPrefixes)
   proxyrc[prefix] = { target: process.env.API_SERVER }
 
 await writeFile(
-  `${process.env.APP_PATH}/.proxyrc`,
+  `${process.env.APP_ROOT}/.proxyrc`,
   JSON.stringify(proxyrc, null, 2)
 )
 
@@ -44,17 +44,17 @@ await childProcess.spawn(
   'npx',
   [
     'nodemon',
-    '-w', `${process.env.APP_PATH}/package.json`,
-    '-w', `${process.env.APP_PATH}/pnpm-lock.yaml`,
+    '-w', `${process.env.APP_ROOT}/package.json`,
+    '-w', `${process.env.APP_ROOT}/pnpm-lock.yaml`,
     '--exec',
     'npx',
     'parcel',
     'serve',
     '--port', `${process.env.PORT}`,
     '--no-cache',
-    // '--cache-dir', `${process.env.APP_PATH}/tmp/cache`,
-    '--dist-dir', `${process.env.APP_PATH}/client-build`,
-    `${process.env.APP_PATH}/client/index.html`,
+    // '--cache-dir', `${process.env.APP_ROOT}/tmp/cache`,
+    '--dist-dir', `${process.env.APP_ROOT}/client-build`,
+    `${process.env.APP_ROOT}/client/index.html`,
   ],
   {
     stdio: ['ignore', 'inherit', 'inherit'],

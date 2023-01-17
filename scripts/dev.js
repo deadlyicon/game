@@ -27,6 +27,6 @@ await concurrently(
   ],
   {
     killOthers: ['failure', 'success'],
-    cwd: process.env.APP_PATH,
+    cwd: process.env.APP_ROOT,
   }
 )
