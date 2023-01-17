@@ -3,21 +3,48 @@ import Path from 'path'
 import express from 'express'
 import bodyParser from 'body-parser'
 import expressSession from 'express-session'
+import Gun from 'gun'
 
 import '../environment.js'
 
 const app = express()
 export { app }
 
+let gun
 app.start = function(){
   app.server = app.listen(process.env.PORT, () => {
     const { port } = app.server.address()
     const host = `http://localhost:${port}`
     console.log(`Listening on port ${host}`)
   })
+  gun = Gun({ web: app.server })
 }
 
 // app.use(pinoHTTP())
+
+app.use(function (req, res, next) {
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-Access-Token, Content-Type, Lang, crossDomain"
+  )
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "POST, GET, OPTIONS, PUT, DELETE"
+  )
+  res.setHeader("Access-Control-Allow-Origin", "*")
+  req.headers.host = req.headers["x-forwarded-host"]
+  res.setHeader("Cache-Control", "no-cache")
+
+  //intercepts OPTIONS method
+  if ('OPTIONS' === req.method) {
+    //respond with 200
+    res.sendStatus(200)
+  } else {
+    //move on
+    next()
+  }
+})
+app.use(Gun.serve)
 
 app.use((req, res, next) => {
   res.set('Cache-Control', 'no-cache')
