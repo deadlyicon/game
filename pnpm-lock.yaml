@@ -40,7 +40,7 @@ specifiers:
   react-router-dom: ^6.6.1
   standard: ^17.0.0
   swr: ^2.0.0
-  zustand: ^4.2.0
+  zustand: ^4.3.2
 
 dependencies:
   '@parcel/cache': 2.8.2_@parcel+core@2.8.2
