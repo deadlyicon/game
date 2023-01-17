@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -e
+set -x
+exec npx parcel build --dist-dir ./client-build client/index.html
