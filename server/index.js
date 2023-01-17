@@ -17,7 +17,10 @@ app.start = function(){
     const host = `http://localhost:${port}`
     console.log(`Listening on port ${host}`)
   })
-  gun = Gun({ web: app.server })
+  gun = Gun({
+    web: app.server,
+    file: process.env.GUN_STORAGE_PATH,
+  })
 }
 
 // app.use(pinoHTTP())

@@ -42,20 +42,6 @@ export function useCurrentUser() {
   const authState = useAuth()
   console.log('useCurrentUser', authState)
   return authState.currentUser
-  // const forceUpdate = React.useState()[1]
-  // React.useEffect(
-  //   () => {
-  //     let sub
-  //     gun.on('auth', (value, key, _msg, _sub) => {
-  //       console.log('🔫 event:auth useCurrentUser', { value, key, _msg, _sub })
-  //       sub = _sub
-  //       debugger
-  //       forceUpdate({})
-  //     })
-  //     return () => { if (sub) sub.off() }
-  //   },
-  //   []
-  // )
-  // console.log('useCurrentUser', gunUser.is)
-  // return gunUser.is ? gunUser.is : null
+    ? gunUser
+    : null
 }

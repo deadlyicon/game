@@ -36,3 +36,4 @@ yarn-error.log*
 .proxyrc
 .parcel-cache
 /oidcSecrets.json
+gun-store
