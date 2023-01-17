@@ -17,11 +17,11 @@ export default function App(){
 }
 
 function LoginForm(){
-  const signup = event => {
+  const _signUp = event => {
     const { username, secret } = getFormValues(event)
     signUp(username, secret)
   }
-  const signin = event => {
+  const _signIn = event => {
     const { username, secret } = getFormValues(event)
     signIn(username, secret)
   }
@@ -29,8 +29,8 @@ function LoginForm(){
   return <form {...{onSubmit}}>
     <input name="username" type="text" placeholder="username"/>
     <input name="secret" type="password" placeholder="secret"/>
-    <button type="submit" onClick={signup}>sign up</button>
-    <button type="submit" onClick={signin}>sign in</button>
+    <button type="submit" onClick={_signUp}>sign up</button>
+    <button type="submit" onClick={_signIn}>sign in</button>
   </form>
 }
 
