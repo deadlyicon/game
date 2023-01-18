@@ -40,7 +40,7 @@ export function setCurrentUser(username){
     console.log('profile set', args)
     useCurrentUser.setState({
       ...profile,
-      pub: user.is.pub,
+      id: user.is.pub,
     })
   })
 

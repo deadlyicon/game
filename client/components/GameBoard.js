@@ -1,30 +1,37 @@
 import React from 'react'
 import sortBy from 'lodash/sortBy'
+import { useCurrentUser } from '../auth.js'
 import { usePlayers } from '../players.js'
 
 const SIZE = 10
 export default function GameBoard(){
-  return <div style={{
-    width: '90vw',
-    height: '90vw',
-    display: 'grid',
-    gridTemplateColumns: `repeat(${SIZE}, 1fr)`,
-  }}>
-    {Array(10).fill().map((_, x) =>
-      <div key={x} style={{}}>
-        {Array(10).fill().map((_, y) =>
-          <div key={y} style={{
-            height: '10%',
-            width: '10%',
-          }}>
-            .
-          </div>
-        )}
-      </div>
-    )}
+  const currentUser = useCurrentUser()
+  const players = usePlayers()
+  return <div>
+    <div style={{
+      position: 'relative',
+      width: '90vw',
+      height: '90vw',
+      backgroundColor: 'teal',
+      margin: '0 auto',
+    }}>
+      {Object.values(players).map(player =>
+        <div key={player.id} style={{
+          backgroundColor: (
+            player.id === currentUser.id ? 'red' : 'blue'
+          ),
+          position: 'absolute',
+          top: `${player.y}px`,
+          left: `${player.x}px`,
+          height: 'min(1%, 10px)',
+          width: 'min(1%, 10px)',
+        }}/>
+      )}
+    </div>
     <Players/>
   </div>
 }
+
 
 function Players(){
   const players = usePlayers()
