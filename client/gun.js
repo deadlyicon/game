@@ -14,3 +14,5 @@ export default gun
 // }
 const user = gun.user()
 export { user }
+
+export const now = () => Gun.state()
