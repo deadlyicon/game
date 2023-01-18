@@ -1,12 +1,11 @@
 import React from 'react'
 import sortBy from 'lodash/sortBy'
-import { useCurrentUser } from '../auth.js'
-import { usePlayers } from '../players.js'
+import { usePlayers, useCurrentPlayer } from '../players.js'
 
 const SIZE = 10
 export default function GameBoard(){
-  const currentUser = useCurrentUser()
   const players = usePlayers()
+  const currentPlayer = useCurrentPlayer()
   return <div>
     <div style={{
       position: 'relative',
@@ -18,7 +17,7 @@ export default function GameBoard(){
       {Object.values(players).map(player =>
         <div key={player.id} style={{
           backgroundColor: (
-            player.id === currentUser.id ? 'red' : 'blue'
+            player.id === currentPlayer.id ? 'red' : 'blue'
           ),
           position: 'absolute',
           top: `${player.y}px`,

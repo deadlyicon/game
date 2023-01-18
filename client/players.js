@@ -1,14 +1,13 @@
 import React from 'react'
 import { create as createStore } from 'zustand'
 import { gameGun } from './game.js'
-import { user, onAuthChange } from './auth.js'
+import { user, onAuthChange, useCurrentUser } from './auth.js'
 
 const usePlayers = createStore(() => ({}))
 export { usePlayers }
 
 gameGun.get('players').map().on((player, id) => {
   if (!player || !player.username) return
-  console.log('player', player)
   usePlayers.setState({
     [id]: player
   })
@@ -38,4 +37,20 @@ function initPlayerMe(currentUser) {
   //   me.put({...currentUser, x, y})
   // }, 2000)
 
+}
+
+export function useCurrentPlayer(){
+  const currentUser = useCurrentUser()
+  const players = usePlayers()
+  const player = Object.values(players).find(p => p.id === currentUser.id )
+  return React.useMemo(
+    () => new CurrentPlayer(currentUser.id, player),
+    [currentUser.id]
+  )
+}
+
+class CurrentPlayer {
+  constructor(id, state = {}) {
+    this.state = {}
+  }
 }
