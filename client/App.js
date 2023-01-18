@@ -5,11 +5,12 @@ import GameBoard from './components/GameBoard.js'
 
 export default function App(){
   const currentUser = useCurrentUser()
+  console.log({ currentUser })
   return <div>
     {currentUser
       ? <>
         <div>
-          <small>user: {currentUser.is.pub}</small>
+          <small>user: {currentUser.username}</small>
           <button onClick={signOut}>sign out</button>
         </div>
         <GameBoard/>

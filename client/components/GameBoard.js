@@ -1,5 +1,5 @@
 import React from 'react'
-import { usePlayers } from '../game.js'
+import { usePlayers } from '../players.js'
 
 export default function GameBoard(){
   return <div>
@@ -10,9 +10,19 @@ export default function GameBoard(){
 function Players(){
   const players = usePlayers()
   console.log('Players', { players })
+
   return <div>
     <h5>Players: </h5>
-    <pre><code>{JSON.stringify(players, null, 2)}</code></pre>
+    <ul>
+      {Object.keys(players).map(id =>
+        <li key={id}>
+          <span>{`@${players[id].username}`}</span>
+          {`:`}&nbsp;
+          <span>{`x=${players[id].x} y=${players[id].y}`}</span>
+        </li>
+      )}
+    </ul>
+    {/*<pre><code>{JSON.stringify(players, null, 2)}</code></pre>*/}
   </div>
 }
 //
