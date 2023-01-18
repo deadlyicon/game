@@ -27,6 +27,9 @@ export default function GameBoard(){
           's': () => currentPlayer.move('down'),
           'd': () => currentPlayer.move('right'),
           'ArrowUp': () => currentPlayer.move('up'),
+          'ArrowLeft': () => currentPlayer.move('left'),
+          'ArrowDown': () => currentPlayer.move('down'),
+          'ArrowRight': () => currentPlayer.move('right'),
         }
         if (event.key in keymap) {
           event.preventDefault()
