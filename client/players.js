@@ -24,14 +24,18 @@ onAuthChange(currentUser => {
 if (user.is) initPlayerMe()
 
 function initPlayerMe(currentUser) {
-  const me = gameGun.get('players').get(user.is.pub)
+  let me = Object.values(usePlayers.getState)
+    .find(p => p.id === currentUser.id)
+  if (!me){
+    me = gameGun.get('players').get(user.is.pub)
+      .put({...currentUser, x: 0, y: 0})
+  }
+  console.log('ME!', { me })
+  // const me = gameGun.get('players').get(user.is.pub)
 
-  let x = 0, y = 0
-  interval = setInterval(() => {
-    me.put({
-      ...currentUser,
-      x: x++,
-      y: y++,
-    })
-  }, 2000)
+  // let x = 0, y = 0
+  // interval = setInterval(() => {
+  //   me.put({...currentUser, x, y})
+  // }, 2000)
+
 }
