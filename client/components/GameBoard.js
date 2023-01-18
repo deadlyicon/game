@@ -1,5 +1,6 @@
 import React from 'react'
 import sortBy from 'lodash/sortBy'
+import { createGame } from '../game.ts'
 import { usePlayers, useCurrentPlayer } from '../players.js'
 
 export default function GameBoard(){
@@ -9,54 +10,21 @@ export default function GameBoard(){
   React.useEffect(
     () => {
       const board = boardRef.current
-      if (board) board.focus()
+      if (!board) return
+      console.log('CREATING GAME')
+      const game = createGame({
+        parent: board
+      })
+      return () => {
+        game.destroy(true)
+      }
     },
     [boardRef.current]
   )
   console.log({ currentPlayer })
-  if (!currentPlayer) return
+  // if (!currentPlayer) return
   return <div>
-    <div {...{
-      ref: boardRef,
-      tabIndex: 0, // make focusable
-      onKeyDown(event){
-        console.log('key down', event.key, event.keyCode)
-        const keymap ={
-          'w': () => currentPlayer.move('up'),
-          'a': () => currentPlayer.move('left'),
-          's': () => currentPlayer.move('down'),
-          'd': () => currentPlayer.move('right'),
-          'ArrowUp': () => currentPlayer.move('up'),
-          'ArrowLeft': () => currentPlayer.move('left'),
-          'ArrowDown': () => currentPlayer.move('down'),
-          'ArrowRight': () => currentPlayer.move('right'),
-        }
-        if (event.key in keymap) {
-          event.preventDefault()
-          keymap[event.key]()
-        }
-      },
-      style: {
-        position: 'relative',
-        width: 'min(90vw, 90vh)',
-        height: 'min(90vw, 90vh)',
-        backgroundColor: 'teal',
-        margin: '0 auto',
-      }
-    }}>
-      {Object.values(players).map(player =>
-        <div key={player.id} style={{
-          backgroundColor: (
-            player.id === currentPlayer.id ? 'red' : 'blue'
-          ),
-          position: 'absolute',
-          top: `${player.y}%`,
-          left: `${player.x}%`,
-          height: 'min(1%, 10px)',
-          width: 'min(1%, 10px)',
-        }}/>
-      )}
-    </div>
+    <div {...{ref: boardRef}}/>
     <Players {...{players}}/>
   </div>
 }

@@ -22,7 +22,7 @@ const proxyrc = {
   // },
 }
 
-let proxyPrefixes = ['/.well-known', '/api']
+let proxyPrefixes = ['/.well-known', '/api', '/assets']
 // try{
 //   proxyPrefixes = [
 //     ...proxyPrefixes,

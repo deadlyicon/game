@@ -57,10 +57,15 @@ app.use((req, res, next) => {
   next()
 })
 
+app.use(express.static(Path.join(process.env.APP_ROOT, 'static'), {
+  setHeaders(res, path, stat){
+    res.set('Cache-Control', 'no-cache')
+  }
+}))
+
 // Serve production build
 const buildPath = process.env.BUILD_PATH
 if (process.env.NODE_ENV === 'production') {
-  // TODO res.setHeader("Cache-Control", "public, max-age=604800, immutable")
   app.use(express.static(buildPath, {
     setHeaders(res, path, stat){
       res.set('Cache-Control', 'no-cache')
