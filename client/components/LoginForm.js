@@ -1,7 +1,5 @@
 import React from 'react'
-import sortBy from 'lodash/sortBy'
-import GameState from './GameState.js'
-import { useCurrentUser, signUp, signIn, signOut } from '../auth.js'
+import { signUp, signIn } from '../auth.js'
 
 export default function LoginForm(){
   const _signUp = event => {

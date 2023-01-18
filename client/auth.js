@@ -2,8 +2,9 @@ import React from 'react'
 import { create as createStore } from 'zustand'
 import gun from './gun.js'
 
-const gunUser = gun.user()
-gunUser.recall({ sessionStorage: true })
+const user = gun.user()
+user.recall({ sessionStorage: true })
+export { user }
 
 export const useLoggedIn = createStore(() => !!gun.user().is)
 console.log({ useLoggedIn })
@@ -14,7 +15,7 @@ gun.on('auth', function(...args){
 })
 
 export function signIn(username, secret){
-  gunUser.auth(username, secret, result => {
+  user.auth(username, secret, result => {
     if (result.err) throw new Error(result.err)
     console.log('signed in', result)
     useLoggedIn.setState(true, true)
@@ -24,7 +25,7 @@ export function signIn(username, secret){
 }
 
 export function signUp(username, secret){
-  gunUser.create(username, secret, result => {
+  user.create(username, secret, result => {
     if (result.err) throw new Error(result.err)
     console.log('signed up', result)
     useLoggedIn.setState(true, true)
@@ -35,11 +36,17 @@ export function signUp(username, secret){
 
 export function signOut(){
   console.log('auth: signOut')
-  gunUser.leave()
+  user.leave()
   useLoggedIn.setState(false, true)
 }
 
 export function useCurrentUser(){
   const loggedIn = useLoggedIn()
   return loggedIn ? gun.user() : null
+}
+
+export function onAuthChange(handler){
+  return useLoggedIn.subscribe(loggedIn => {
+    handler(loggedIn, gun.user())
+  })
 }

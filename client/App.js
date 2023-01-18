@@ -1,25 +1,20 @@
 import React from 'react'
-import sortBy from 'lodash/sortBy'
 import { useCurrentUser, signOut } from './auth.js'
-import GameState from './components/GameState.js'
 import LoginForm from './components/LoginForm.js'
+import GameBoard from './components/GameBoard.js'
 
 export default function App(){
   const currentUser = useCurrentUser()
   return <div>
-    <h4>APP</h4>
-    <GameState/>
     {currentUser
-      ? <CurrentUser/>
+      ? <>
+        <div>
+          <small>user: {currentUser.is.pub}</small>
+          <button onClick={signOut}>sign out</button>
+        </div>
+        <GameBoard/>
+      </>
       : <LoginForm/>
     }
-  </div>
-}
-
-function CurrentUser() {
-  const currentUser = useCurrentUser()
-  return <div>
-    <pre>Public Key = {currentUser.is.pub}</pre>
-    <button onClick={signOut}>sign out</button>
   </div>
 }
