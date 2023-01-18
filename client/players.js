@@ -14,18 +14,24 @@ gameGun.get('players').map().on((player, id) => {
   })
 })
 
+let interval
 onAuthChange(currentUser => {
   console.log('AUTH CHANGE', { currentUser })
+  clearInterval(interval)
   if (currentUser) initPlayerMe(currentUser)
-  // else teardown
 })
 
 if (user.is) initPlayerMe()
 
 function initPlayerMe(currentUser) {
   const me = gameGun.get('players').get(user.is.pub)
-    .put({
+
+  let x = 0, y = 0
+  interval = setInterval(() => {
+    me.put({
       ...currentUser,
-      x: 0, y: 0
+      x: x++,
+      y: y++,
     })
+  }, 2000)
 }

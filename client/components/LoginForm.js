@@ -10,12 +10,16 @@ export default function LoginForm(){
     const { username, secret } = getFormValues(event)
     signIn(username, secret)
   }
+  const justGO = () => {
+    signUp(crypto.randomUUID(), crypto.randomUUID())
+  }
   const onSubmit = event => { event.preventDefault(); }
   return <form {...{onSubmit}}>
     <input name="username" type="text" placeholder="username"/>
     <input name="secret" type="password" placeholder="secret"/>
     <button type="submit" onClick={_signUp}>sign up</button>
     <button type="submit" onClick={_signIn}>sign in</button>
+    <button type="submit" onClick={justGO}>LET ME IN</button>
   </form>
 }
 

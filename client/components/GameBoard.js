@@ -1,4 +1,5 @@
 import React from 'react'
+import sortBy from 'lodash/sortBy'
 import { usePlayers } from '../players.js'
 
 export default function GameBoard(){
@@ -9,16 +10,19 @@ export default function GameBoard(){
 
 function Players(){
   const players = usePlayers()
-  console.log('Players', { players })
-
+  const sortedPlayers = sortBy(
+    Object.entries(players)
+      .map(([id, player]) => ({...player, id})),
+    ['username']
+  )
   return <div>
     <h5>Players: </h5>
     <ul>
-      {Object.keys(players).map(id =>
+      {sortedPlayers.map(({id, username, x, y}) =>
         <li key={id}>
-          <span>{`@${players[id].username}`}</span>
+          <span>{`@${username}`}</span>
           {`:`}&nbsp;
-          <span>{`x=${players[id].x} y=${players[id].y}`}</span>
+          <span>{`x=${x} y=${y}`}</span>
         </li>
       )}
     </ul>
