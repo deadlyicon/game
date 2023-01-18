@@ -1,7 +1,6 @@
 import React from 'react'
 import gun from './gun.js'
 
-const NAMEPSPACE = `__game__v5__${process.env.NODE_ENV}`
-const gameGun = gun.get(NAMEPSPACE)
+const gameGun = gun
 export { gameGun }
 window.gameGun = gameGun

@@ -20,7 +20,8 @@ app.start = function(){
   gun = Gun({
     web: app.server,
     file: process.env.GUN_STORAGE_PATH,
-  })
+  }).get(process.env.GUN_PREFIX || 'game')
+
 }
 
 // app.use(pinoHTTP())

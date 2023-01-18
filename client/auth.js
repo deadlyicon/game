@@ -2,68 +2,59 @@ import React from 'react'
 import { create as createStore } from 'zustand'
 import gun from './gun.js'
 
-console.log({ sessionStorage: { ...sessionStorage } })
 const user = gun.user()
 user.recall({ sessionStorage: true })
 export { user }
 
 export const useCurrentUser = createStore(() => null)
+if (user.is) setCurrentUser()
 
-user.on(user => {
-  console.log('🔫user.on', user)
-  // user.recall({ sessionStorage: true })
-})
+async function getUserProfile(){
+  gun.get('profiles').get()
+}
 
 gun.on('auth', function(...args){
-  console.log('🔫 event:auth', args)
-  if (user.is){
-    user.get('profile').once(profile => {
-      console.log("PROFILE", profile)
-      useCurrentUser.setState({
-        ...profile,
-        id: user.is.pub
-      })
-    })
-  }else{
-    useCurrentUser.setState(null)
-  }
+  if (user.is) setCurrentUser()
+  else useCurrentUser.setState(null)
 })
 
 export function signUp(username, secret){
   user.create(username, secret, result => {
     if (result.err) throw new Error(result.err)
-    console.log('signed up', result)
-    setCurrentUser(username)
+    gun.get('usernames').get(user.is.pub).put(username)
+    setCurrentUser()
   })
 }
 
 export function signIn(username, secret){
   user.auth(username, secret, result => {
     if (result.err) throw new Error(result.err)
-    console.log('signed in', result)
-    setCurrentUser(username)
+    setCurrentUser()
   })
 }
 
-export function setCurrentUser(username){
+export function setCurrentUser(){
   if (!user.is) throw new Error(`expected to be logged in`)
+  const id = user.is.pub
   sessionStorage.pair = JSON.stringify(user._.sea)
   sessionStorage.recall = true
-  const id = user.is.pub
-  const profile = { id, username }
-  console.log('SET PROFILE', profile)
-  user.get('profile').put(profile, res => {
-    if (res.err) throw new Error(res.err)
-    console.log('profile set', args)
-    useCurrentUser.setState(profile)
-  })
-
+  gun.get('usernames').get(id).then(
+    username => {
+      const cu = useCurrentUser.getState()
+      if (!cu || cu.id !== id || cu.username !== username)
+        useCurrentUser.setState({ id, username })
+    },
+    error => {
+      console.error(error)
+      throw error
+    }
+  )
 }
 
 export function signOut(){
   console.log('auth: signOut')
   user.leave()
-  useCurrentUser.setState(false, true)
+  useCurrentUser.setState(null, true)
 }
 
 export function onAuthChange(handler){
