@@ -17,6 +17,8 @@ app.start = function(){
     const host = `http://localhost:${port}`
     console.log(`Listening on port ${host}`)
   })
+  console.log(`GUN PREFIX: ${process.env.GUN_PREFIX}`)
+
   gun = Gun({
     web: app.server,
     file: process.env.GUN_STORAGE_PATH,

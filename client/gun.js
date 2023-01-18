@@ -2,6 +2,7 @@
 // import SEA from 'gun/sea'
 
 console.log(`GUN SERVER: ${process.env.API_SERVER}`)
+console.log(`GUN PREFIX: ${process.env.GUN_PREFIX}`)
 const gun = Gun(`${process.env.API_SERVER}/gun`).get(process.env.GUN_PREFIX || 'game')
 
 console.log('gun', gun)
