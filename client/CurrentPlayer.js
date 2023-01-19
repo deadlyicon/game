@@ -35,7 +35,6 @@ export default class CurrentPlayer {
     this.gun.on(this._onStateChange)
   }
   _onStateChange(state){
-    console.log(this, 'state update', state)
     this.state = state
   }
   get x(){ return this.state.x }

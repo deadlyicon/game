@@ -17,12 +17,10 @@ gun.get('players').map().on((player, id) => {
 })
 
 onAuthChange(currentUser => {
-  console.log('AUTH CHANGE', { currentUser })
   setCurrentPlayer(currentUser)
 })
 
 function setCurrentPlayer(currentUser){
-  console.trace('setCurrentPlayer', currentUser)
   useCurrentPlayer.setState(
     user.is ? new CurrentPlayer(currentUser) : null,
     true

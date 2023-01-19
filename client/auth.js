@@ -52,7 +52,6 @@ export function setCurrentUser(){
 }
 
 export function signOut(){
-  console.log('auth: signOut')
   user.leave()
   useCurrentUser.setState(null, true)
 }

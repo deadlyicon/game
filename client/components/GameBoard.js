@@ -11,7 +11,6 @@ export default function GameBoard(){
     () => {
       const board = boardRef.current
       if (!board || !currentPlayer) return
-      console.log('CREATING GAME')
       const game = createGame({
         domNode: board,
       })
