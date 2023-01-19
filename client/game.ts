@@ -103,8 +103,8 @@ class MainScene extends Phaser.Scene {
     })
 
     this.player = this.physics.add.sprite(
-      this.currentPlayerState.x || 0,
-      this.currentPlayerState.y || 0,
+      this.currentPlayerState.x || 100,
+      this.currentPlayerState.y || 100,
       'player',
       1
     )
