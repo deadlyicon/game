@@ -22,7 +22,7 @@ export default function GameBoard(){
   )
   if (!currentPlayer) return
   return <div>
-    <div {...{ref: boardRef}}/>
+    <div className="phaser-container" {...{ref: boardRef}}/>
     <Players {...{players}}/>
   </div>
 }
@@ -37,8 +37,6 @@ function Players({ players }){
       {sortedPlayers.map(player =>
         <li key={player.id}>
           <span>{`@${player.username}`}</span>
-          {`:`}&nbsp;
-          <span>{`x=${player.x} y=${player.y}`}</span>
         </li>
       )}
     </ul>

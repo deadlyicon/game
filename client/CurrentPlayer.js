@@ -1,5 +1,5 @@
 import wait from '../lib/wait.js'
-import gun from './gun.js'
+import gun, { now } from './gun.js'
 
 export default class CurrentPlayer {
   constructor({ id, username }) {
@@ -11,9 +11,6 @@ export default class CurrentPlayer {
       console.error('CurrentPlayer failed to init', error)
       this.broken = error
     })
-    // this.reload().catch(error => {
-    //   console.error('CurrentPlayer#constructor reload error', error)
-    // })
   }
 
   async init(){
@@ -34,36 +31,23 @@ export default class CurrentPlayer {
     this._onStateChange = this._onStateChange.bind(this)
     this.gun.on(this._onStateChange)
   }
+
   _onStateChange(state){
     this.state = state
   }
+
   get x(){ return this.state?.x }
   get y(){ return this.state?.y }
 
-  async setState(changes){
-    this.state = await this.gun.put(changes)
+  async setState(changes = {}){
+    this.state = await this.gun.put({
+      lastUpdatedAt: now(),
+      ...changes
+    })
   }
 
   async setPosition({ x, y }){
     await this.setState({ x, y })
   }
 
-  // async reload(){
-  //   await this.gun.once(state => {
-  //     if (!state || !state.username) debugger
-  //     this.state = state
-  //     console.log('CurrentPlayer#constructor loaded player', this, {state})
-  //   }).then()
-  // }
-
-  // async move(direction){
-  //   await this.ready
-  //   console.log('MOVING', this)
-  //   let { x = 0, y = 0 } = this.state
-  //   if (direction === 'up') await this.setState({ y: Math.max(y - 1, 0) })
-  //   if (direction === 'down') await this.setState({ y: Math.min(y + 1, 100) })
-  //   if (direction === 'left') await this.setState({ x: Math.max(x - 1, 0) })
-  //   if (direction === 'right') await this.setState({ x: Math.min(x + 1, 100) })
-  //   console.log('moved', this)
-  // }
 }

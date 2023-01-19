@@ -10,17 +10,9 @@ import spaceman from 'raw:./assets/sprites/spaceman.png'
 export function createGame({ domNode }){
   const config = {
     parent: domNode,
-    renderType: Phaser.CANVAS,
+    height: 320,
+    width: 320,
     scene: MainScene,
-    dom: { createContainer: true },
-    // type: Phaser.AUTO,
-    // scale: {
-    //   mode: Phaser.Scale.FIT,
-    //   parent: 'game',
-    //   autoCenter: Phaser.Scale.CENTER_BOTH,
-    //   width: '100%',
-    //   height: '100%'
-    // },
     backgroundColor: '#2d2d2d',
     pixelArt: true,
     physics: {
@@ -29,13 +21,9 @@ export function createGame({ domNode }){
         gravity: { y: 0 }
       }
     },
-    // scene: {
-    //   preload: preload,
-    //   create: create,
-    //   update: update
-    // }
   }
   const game = new Phaser.Game(config)
+  window.game = game
   return game
 }
 
@@ -66,7 +54,6 @@ class MainScene extends Phaser.Scene {
   }
 
   create() {
-
     this.map = this.make.tilemap({ key: 'level1_bg', tileWidth: 16, tileHeight: 16 })
     this.map = this.make.tilemap({ key: 'level1_arena', tileWidth: 16, tileHeight: 16 })
     let tileset = this.map.addTilesetImage('Town')
@@ -126,7 +113,7 @@ class MainScene extends Phaser.Scene {
 
     this.debugGraphics = this.add.graphics()
 
-    this.input.keyboard.on('keydown-C', function (event) {
+    this.input.keyboard.on('keydown-C', event => {
       this.showDebug = !this.showDebug
       this.drawDebug()
     })

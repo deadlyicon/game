@@ -13,10 +13,6 @@ const gun = Gun(process.env.GUN_SERVER).get(process.env.GUN_PREFIX || 'game')
 window.gun = gun
 export default gun
 
-
-// export function signup(){
-//   SEA
-// }
 const user = gun.user()
 export { user }
 
