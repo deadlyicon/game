@@ -1,7 +1,7 @@
 import React from 'react'
-import { create as createStore } from 'zustand'
+import createStore from 'zustand'
 import gun from './gun.js'
-import { user, onAuthChange, useCurrentUser } from './auth.js'
+import { user, onAuthChange } from './auth.js'
 import CurrentPlayer from './CurrentPlayer.js'
 
 const usePlayers = createStore(() => ({}))

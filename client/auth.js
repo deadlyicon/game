@@ -1,5 +1,5 @@
 import React from 'react'
-import { create as createStore } from 'zustand'
+import createStore from 'zustand'
 import gun from './gun.js'
 
 const user = gun.user()

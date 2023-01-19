@@ -1,11 +1,15 @@
-// import Gun from 'gun/gun'
-// import SEA from 'gun/sea'
+import Gun from 'gun'
+import SEA from 'gun/sea'
+import 'gun/lib/radix.js'
+import 'gun/lib/radisk.js'
+import 'gun/lib/store.js'
+import 'gun/lib/rindexed.js'
 
-console.log(`GUN SERVER: ${process.env.API_SERVER}`)
+console.log(`GUN SERVER: ${process.env.GUN_SERVER}`)
 console.log(`GUN PREFIX: ${process.env.GUN_PREFIX}`)
-const gun = Gun(`${process.env.API_SERVER}/gun`).get(process.env.GUN_PREFIX || 'game')
 
-console.log('gun', gun)
+const gun = Gun(process.env.GUN_SERVER).get(process.env.GUN_PREFIX || 'game')
+
 window.gun = gun
 export default gun
 

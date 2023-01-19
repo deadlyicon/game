@@ -1,0 +1,9 @@
+{
+  "extends": "@parcel/config-default",
+  "resolvers": [ "@parcel/resolver-glob", "..." ],
+  "transformers": {
+    "bundle-text:*": ["...", "@parcel/transformer-inline-string"],
+    "data-url:*": ["...", "@parcel/transformer-inline-string"],
+    "raw:*": ["@parcel/transformer-raw"]
+  }
+}

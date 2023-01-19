@@ -1,32 +1,29 @@
 #!/usr/bin/env node
+import { readFile, writeFile } from 'node:fs/promises'
+import childProcess from 'child-process-promise'
 
 import '../environment.js'
 
-const {default: findPort} = await import('find-open-port')
-const {default: concurrently} = await import('concurrently')
+process.env.NODE_ENV = "development"
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
 
-const serverPort = await findPort()
-const apiServerUrl = `http://localhost:${serverPort}`
-
-await concurrently(
+await childProcess.spawn(
+  'npx',
   [
-    {
-      name: 'server',
-      command: `./scripts/dev-server.js`,
-      env: {
-        PORT: serverPort
-      },
-    },
-    {
-      name: 'client',
-      command: `./scripts/dev-client.js`,
-      env: {
-        API_SERVER: apiServerUrl,
-      },
-    },
+    'nodemon',
+    '-w', `${process.env.APP_ROOT}/package.json`,
+    '-w', `${process.env.APP_ROOT}/pnpm-lock.yaml`,
+    '--exec',
+    'npx',
+    'parcel',
+    'serve',
+    '--port', `${process.env.PORT}`,
+    '--no-cache',
+    // '--cache-dir', `${process.env.APP_ROOT}/tmp/cache`,
+    '--dist-dir', `${process.env.APP_ROOT}/client-build`,
+    `${process.env.APP_ROOT}/client/index.html`,
   ],
   {
-    killOthers: ['failure', 'success'],
-    cwd: process.env.APP_ROOT,
+    stdio: ['ignore', 'inherit', 'inherit'],
   }
 )
