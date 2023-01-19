@@ -1,19 +1,13 @@
 import 'phaser'
 import gun from './gun.js'
-// import { currentPlayer } from './players.js'
+import { getCurrentPlayer, subPlayers } from './players.js'
 
-export function createGame({ domNode, currentPlayer }){
-  console.log('Create New Game!', { domNode, currentPlayer })
-  class MainSceneWrapper {
-    constructor() {
-      return new MainScene(currentPlayer)
-    }
-  }
+export function createGame({ domNode }){
+  console.log('Create New Game!', { domNode })
   const config = {
     parent: domNode,
     renderType: Phaser.CANVAS,
-    // scene: MainScene,
-    scene: MainSceneWrapper,
+    scene: MainScene,
     dom: { createContainer: true },
     // type: Phaser.AUTO,
     // scale: {
@@ -49,11 +43,16 @@ class MainScene extends Phaser.Scene {
   helpText: any
   player: any
   currentPlayerState: any
+  otherPlayersState: any
+  otherPlayers: any
   showDebug = false
 
-  constructor(currentPlayerState) {
+  constructor() {
     super('MainScene')
-    this.currentPlayerState = currentPlayerState
+    this.currentPlayerState = getCurrentPlayer()
+    subPlayers(players => this.otherPlayersState = players)
+    // TODO teardown unsub
+    window.mainScene = this
   }
 
   preload() {
@@ -100,8 +99,12 @@ class MainScene extends Phaser.Scene {
 
     this.player = this.physics.add.sprite(50, 100, 'player', 1)
 
-    this.otherPlayers = []
-
+    this.otherPlayers = {}
+    for (const id in this.otherPlayersState){
+      if (this.currentPlayerState.id === id) continue
+      const {x = 0, y = 0} = this.otherPlayersState[id]
+      this.otherPlayers[id] = this.physics.add.sprite(x, y, 'player', 1)
+    }
 
     // Set up the player to collide with the tilemap layer. Alternatively, you can manually run
     // collisions in update via: this.physics.world.collide(player, layer).
@@ -128,6 +131,20 @@ class MainScene extends Phaser.Scene {
   }
 
   update(time: number, delta: number): void {
+
+    for (const id in this.otherPlayersState){
+      if (this.currentPlayerState.id === id) continue
+      const {x = 0, y = 0} = this.otherPlayersState[id]
+      this.otherPlayers[id] ??= this.physics.add.sprite(x, y, 'player', 1)
+      this.otherPlayers[id].x = x
+      this.otherPlayers[id].y = y
+    }
+    // TODO remove
+    // for (const id in this.otherPlayers){
+    //   if (!(id in this.otherPlayersState))
+    // }
+
+
     this.player.body.setVelocity(0)
 
     if (this.player.x > 300) this.player.x = 0

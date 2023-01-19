@@ -16,6 +16,11 @@ gun.get('players').map().on((player, id) => {
   })
 })
 
+onAuthChange(currentUser => {
+  console.log('AUTH CHANGE', { currentUser })
+  setCurrentPlayer(currentUser)
+})
+
 function setCurrentPlayer(currentUser){
   console.trace('setCurrentPlayer', currentUser)
   useCurrentPlayer.setState(
@@ -24,8 +29,11 @@ function setCurrentPlayer(currentUser){
   )
 }
 
-onAuthChange(currentUser => {
-  console.log('AUTH CHANGE', { currentUser })
-  setCurrentPlayer(currentUser)
-})
-// if (user.is) setCurrentPlayer()
+export function getCurrentPlayer(){
+  return useCurrentPlayer.getState()
+}
+
+export function subPlayers(handler){
+  handler(usePlayers.getState)
+  return usePlayers.subscribe(handler)
+}

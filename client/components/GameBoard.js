@@ -14,16 +14,14 @@ export default function GameBoard(){
       console.log('CREATING GAME')
       const game = createGame({
         domNode: board,
-        currentPlayer
       })
       return () => {
         game.destroy(true)
       }
     },
-    [boardRef.current, currentPlayer]
+    [boardRef.current]
   )
-  console.log({ currentPlayer })
-  // if (!currentPlayer) return
+  if (!currentPlayer) return
   return <div>
     <div {...{ref: boardRef}}/>
     <Players {...{players}}/>

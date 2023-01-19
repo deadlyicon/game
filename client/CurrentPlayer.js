@@ -42,8 +42,7 @@ export default class CurrentPlayer {
   get y(){ return this.state.y }
 
   async setState(changes){
-    const newState = await this.gun.put(changes)
-    console.log('CurrentPlayer#setState newState?', newState)
+    this.state = await this.gun.put(changes)
   }
 
   async setPosition({ x, y }){
