@@ -1,5 +1,5 @@
 import React from 'react'
-import createStore from 'zustand'
+import createStore from './store.js'
 import gun from './gun.js'
 import { user, onAuthChange } from './auth.js'
 import CurrentPlayer from './CurrentPlayer.js'
