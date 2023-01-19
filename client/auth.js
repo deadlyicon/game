@@ -7,6 +7,7 @@ user.recall({ sessionStorage: true })
 export { user }
 
 export const useCurrentUser = createStore(() => null)
+window.useCurrentUser = useCurrentUser
 if (user.is) setCurrentUser()
 
 async function getUserProfile(){
