@@ -57,14 +57,14 @@ export default class CurrentPlayer {
   //   }).then()
   // }
 
-  async move(direction){
-    await this.ready
-    console.log('MOVING', this)
-    let { x = 0, y = 0 } = this.state
-    if (direction === 'up') await this.setState({ y: Math.max(y - 1, 0) })
-    if (direction === 'down') await this.setState({ y: Math.min(y + 1, 100) })
-    if (direction === 'left') await this.setState({ x: Math.max(x - 1, 0) })
-    if (direction === 'right') await this.setState({ x: Math.min(x + 1, 100) })
-    console.log('moved', this)
-  }
+  // async move(direction){
+  //   await this.ready
+  //   console.log('MOVING', this)
+  //   let { x = 0, y = 0 } = this.state
+  //   if (direction === 'up') await this.setState({ y: Math.max(y - 1, 0) })
+  //   if (direction === 'down') await this.setState({ y: Math.min(y + 1, 100) })
+  //   if (direction === 'left') await this.setState({ x: Math.max(x - 1, 0) })
+  //   if (direction === 'right') await this.setState({ x: Math.min(x + 1, 100) })
+  //   console.log('moved', this)
+  // }
 }
