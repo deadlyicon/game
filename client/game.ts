@@ -119,6 +119,10 @@ class MainScene extends Phaser.Scene {
     })
 
     this.cursors = this.input.keyboard.createCursorKeys()
+    this.cursors.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
+    this.cursors.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
+    this.cursors.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
+    this.cursors.down = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
 
     this.helpText = this.add.text(16, 16, this.getHelpMessage(), {
       fontSize: '18px',
