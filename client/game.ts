@@ -2,7 +2,7 @@ import 'phaser'
 import gun from './gun.js'
 import { getCurrentPlayer, subPlayers } from './players.js'
 
-export function createGame({ domNode }){
+export function createGame({ domNode }) {
   console.log('Create New Game!', { domNode })
   const config = {
     parent: domNode,
@@ -57,13 +57,15 @@ class MainScene extends Phaser.Scene {
 
   preload() {
     this.load.image('Town', '/assets/tilemap/tilemap_packed.png')
-    this.load.tilemapCSV('level1', '/assets/level1.csv')
+    this.load.tilemapCSV('level1_arena', '/assets/level1_arena.csv')
+    this.load.tilemapCSV('level1_bg', '/assets/level1_background.csv')
     this.load.spritesheet('player', '/assets/sprites/spaceman.png', { frameWidth: 16, frameHeight: 16 })
   }
 
   create() {
 
-    this.map = this.make.tilemap({ key: 'level1', tileWidth: 16, tileHeight: 16 })
+    this.map = this.make.tilemap({ key: 'level1_bg', tileWidth: 16, tileHeight: 16 })
+    this.map = this.make.tilemap({ key: 'level1_arena', tileWidth: 16, tileHeight: 16 })
     let tileset = this.map.addTilesetImage('Town')
     let layer = this.map.createLayer(0, tileset, 0, 0)
 
@@ -100,9 +102,9 @@ class MainScene extends Phaser.Scene {
     this.player = this.physics.add.sprite(50, 100, 'player', 1)
 
     this.otherPlayers = {}
-    for (const id in this.otherPlayersState){
+    for (const id in this.otherPlayersState) {
       if (this.currentPlayerState.id === id) continue
-      const {x = 0, y = 0} = this.otherPlayersState[id]
+      const { x = 0, y = 0 } = this.otherPlayersState[id]
       this.otherPlayers[id] = this.physics.add.sprite(x, y, 'player', 1)
     }
 
@@ -132,9 +134,9 @@ class MainScene extends Phaser.Scene {
 
   update(time: number, delta: number): void {
 
-    for (const id in this.otherPlayersState){
+    for (const id in this.otherPlayersState) {
       if (this.currentPlayerState.id === id) continue
-      const {x = 0, y = 0} = this.otherPlayersState[id]
+      const { x = 0, y = 0 } = this.otherPlayersState[id]
       this.otherPlayers[id] ??= this.physics.add.sprite(x, y, 'player', 1)
       this.otherPlayers[id].x = x
       this.otherPlayers[id].y = y
@@ -186,7 +188,7 @@ class MainScene extends Phaser.Scene {
     this.emitNewPlayerPosition()
   }
 
-  emitNewPlayerPosition(){
+  emitNewPlayerPosition() {
     const { x, y } = this.player
     if (
       x === this.currentPlayerState.x &&
