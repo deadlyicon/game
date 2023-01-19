@@ -2,8 +2,12 @@ import 'phaser'
 import gun from './gun.js'
 import { getCurrentPlayer, subPlayers } from './players.js'
 
-export function createGame({ domNode }) {
-  console.log('Create New Game!', { domNode })
+import tilemapPacked from 'raw:./assets/tilemap/tilemap_packed.png'
+import level1Arena from 'raw:./assets/level1_arena.csv'
+import level1Background from 'raw:./assets/level1_background.csv'
+import spaceman from 'raw:./assets/sprites/spaceman.png'
+
+export function createGame({ domNode }){
   const config = {
     parent: domNode,
     renderType: Phaser.CANVAS,
@@ -31,7 +35,6 @@ export function createGame({ domNode }) {
     //   update: update
     // }
   }
-  console.log('PHASE config', config)
   const game = new Phaser.Game(config)
   return game
 }
@@ -56,10 +59,10 @@ class MainScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('Town', '/assets/tilemap/tilemap_packed.png')
-    this.load.tilemapCSV('level1_arena', '/assets/level1_arena.csv')
-    this.load.tilemapCSV('level1_bg', '/assets/level1_background.csv')
-    this.load.spritesheet('player', '/assets/sprites/spaceman.png', { frameWidth: 16, frameHeight: 16 })
+    this.load.image('Town', tilemapPacked)
+    this.load.tilemapCSV('level1_arena', level1Arena)
+    this.load.tilemapCSV('level1_bg', level1Background)
+    this.load.spritesheet('player', spaceman, { frameWidth: 16, frameHeight: 16 })
   }
 
   create() {
@@ -99,7 +102,12 @@ class MainScene extends Phaser.Scene {
       repeat: -1
     })
 
-    this.player = this.physics.add.sprite(50, 100, 'player', 1)
+    this.player = this.physics.add.sprite(
+      this.currentPlayerState.x || 0,
+      this.currentPlayerState.y || 0,
+      'player',
+      1
+    )
 
     this.otherPlayers = {}
     for (const id in this.otherPlayersState) {
@@ -149,8 +157,6 @@ class MainScene extends Phaser.Scene {
 
     this.player.body.setVelocity(0)
 
-    if (this.player.x > 300) this.player.x = 0
-    if (this.player.y > 300) this.player.y = 0
     // Horizontal movement
     if (this.cursors.left.isDown) {
       this.player.body.setVelocityX(-100)
