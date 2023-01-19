@@ -10,16 +10,17 @@ export default function GameBoard(){
   React.useEffect(
     () => {
       const board = boardRef.current
-      if (!board) return
+      if (!board || !currentPlayer) return
       console.log('CREATING GAME')
       const game = createGame({
-        parent: board
+        domNode: board,
+        currentPlayer
       })
       return () => {
         game.destroy(true)
       }
     },
-    [boardRef.current]
+    [boardRef.current, currentPlayer]
   )
   console.log({ currentPlayer })
   // if (!currentPlayer) return
