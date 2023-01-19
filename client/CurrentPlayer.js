@@ -37,8 +37,8 @@ export default class CurrentPlayer {
   _onStateChange(state){
     this.state = state
   }
-  get x(){ return this.state.x }
-  get y(){ return this.state.y }
+  get x(){ return this.state?.x }
+  get y(){ return this.state?.y }
 
   async setState(changes){
     this.state = await this.gun.put(changes)
