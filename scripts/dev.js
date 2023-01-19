@@ -11,6 +11,7 @@ await childProcess.spawn(
   'npx',
   [
     'nodemon',
+    '-w', `${process.env.APP_ROOT}/.env`,
     '-w', `${process.env.APP_ROOT}/package.json`,
     '-w', `${process.env.APP_ROOT}/pnpm-lock.yaml`,
     '--exec',
