@@ -21,7 +21,7 @@ await childProcess.spawn(
     '--port', `${process.env.PORT}`,
     '--no-cache',
     // '--cache-dir', `${process.env.APP_ROOT}/tmp/cache`,
-    '--dist-dir', `${process.env.APP_ROOT}/client-build`,
+    '--dist-dir', `${process.env.APP_ROOT}/build`,
     `${process.env.APP_ROOT}/client/index.html`,
   ],
   {

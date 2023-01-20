@@ -3,8 +3,9 @@
 set -e
 set -x
 exec npx parcel build \
-  --dist-dir ./client-build \
+  --dist-dir ./build \
   client/index.html \
   --no-cache \
   --detailed-report \
-  --no-optimize
+  --no-optimize \
+  "$@"

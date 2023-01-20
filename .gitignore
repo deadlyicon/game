@@ -32,6 +32,7 @@ yarn-error.log*
 /uploads
 /vaults
 /client-build
+/build
 /server/.prisma
 .proxyrc
 .parcel-cache
