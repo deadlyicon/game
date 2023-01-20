@@ -95,12 +95,11 @@ class MainScene extends Phaser.Scene {
       'player',
       1
     )
+    this.createPlayerLabel(this.player, this.currentPlayerState.username || 'you')
 
     this.otherPlayers = {}
     for (const id in this.otherPlayersState) {
-      if (this.currentPlayerState.id === id) continue
-      const { x = 0, y = 0 } = this.otherPlayersState[id]
-      this.otherPlayers[id] = this.physics.add.sprite(x, y, 'player', 1)
+      this.createOtherPlayer(id, this.otherPlayersState[id])
     }
 
     // Set up the player to collide with the tilemap layer. Alternatively, you can manually run
@@ -135,10 +134,15 @@ class MainScene extends Phaser.Scene {
 
     for (const id in this.otherPlayersState) {
       if (this.currentPlayerState.id === id) continue
-      const { x = 0, y = 0 } = this.otherPlayersState[id]
-      this.otherPlayers[id] ??= this.physics.add.sprite(x, y, 'player', 1)
-      this.otherPlayers[id].x = x
-      this.otherPlayers[id].y = y
+      let otherPlayer = this.otherPlayers[id]
+      if (!otherPlayer) this.createOtherPlayer(id, this.otherPlayersState[id])
+      otherPlayer = this.otherPlayers[id]
+      if (otherPlayer) {
+        const {x = 0, y = 0} = this.otherPlayersState[id]
+        otherPlayer.x = x
+        otherPlayer.y = y
+        this.positionPlayerLabel(otherPlayer)
+      }
     }
     // TODO remove
     // for (const id in this.otherPlayers){
@@ -181,6 +185,8 @@ class MainScene extends Phaser.Scene {
       this.player.anims.stop()
     }
 
+    this.positionPlayerLabel(this.player)
+
     // TODO debounce
     this.emitNewPlayerPosition()
   }
@@ -214,4 +220,20 @@ class MainScene extends Phaser.Scene {
       '\nPress "C" to toggle debug visuals: ' + (this.showDebug ? 'on' : 'off')
   }
 
+  createOtherPlayer(id, { x = 0, y = 0, username }){
+    console.log('createOtherPlayer', { id, username })
+    if (this.currentPlayerState.id === id) return
+    this.otherPlayers[id] = this.physics.add.sprite(x, y, 'player', 1)
+    this.createPlayerLabel(this.otherPlayers[id], username || id)
+  }
+
+  createPlayerLabel(player, value){
+    player.label = this.add.text(player.x, player.y, value, {fontSize: '15px', color: '#fff'})
+    this.positionPlayerLabel(player)
+  }
+
+  positionPlayerLabel(player){
+    player.label.x = player.x - 25
+    player.label.y = player.y - 25
+  }
 }
