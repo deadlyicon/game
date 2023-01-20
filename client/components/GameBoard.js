@@ -29,7 +29,6 @@ export default function GameBoard(){
 
 
 function Players({ players }){
-  console.log({ players })
   const sortedPlayers = sortBy(Object.values(players), ['username'])
   return <div>
     <h5>Players: </h5>
@@ -40,6 +39,5 @@ function Players({ players }){
         </li>
       )}
     </ul>
-    {/*<pre><code>{JSON.stringify(players, null, 2)}</code></pre>*/}
   </div>
 }
