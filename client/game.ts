@@ -6,8 +6,9 @@ import tilemapPacked from 'raw:./assets/tilemap/tilemap_packed.png'
 import level1Arena from 'raw:./assets/level1_arena.csv'
 import level1Background from 'raw:./assets/level1_background.csv'
 import spaceman from 'raw:./assets/sprites/spaceman.png'
+import sword from 'raw:./assets/sprites/sword.png'
 
-export function createGame({ domNode }){
+export function createGame({ domNode }) {
   const config = {
     parent: domNode,
     height: 320,
@@ -48,6 +49,7 @@ class MainScene extends Phaser.Scene {
 
   preload() {
     this.load.image('Town', tilemapPacked)
+    this.load.image('sword', sword)
     this.load.tilemapCSV('level1_arena', level1Arena)
     this.load.tilemapCSV('level1_bg', level1Background)
     this.load.spritesheet('player', spaceman, { frameWidth: 16, frameHeight: 16 })
@@ -138,7 +140,7 @@ class MainScene extends Phaser.Scene {
       if (!otherPlayer) this.createOtherPlayer(id, this.otherPlayersState[id])
       otherPlayer = this.otherPlayers[id]
       if (otherPlayer) {
-        const {x = 0, y = 0} = this.otherPlayersState[id]
+        const { x = 0, y = 0 } = this.otherPlayersState[id]
         otherPlayer.x = x
         otherPlayer.y = y
         this.positionPlayerLabel(otherPlayer)
@@ -212,27 +214,27 @@ class MainScene extends Phaser.Scene {
       })
     }
 
-    this.helpText.setText(this.getHelpMessage())
+    this.helpText.setTexsubPlayerst(this.getHelpMessage())
   }
 
   getHelpMessage() {
-    return 'Arrow keys to move.' +
+    return 'Arrow wasd to move.' +
       '\nPress "C" to toggle debug visuals: ' + (this.showDebug ? 'on' : 'off')
   }
 
-  createOtherPlayer(id, { x = 0, y = 0, username }){
+  createOtherPlayer(id, { x = 0, y = 0, username }) {
     console.log('createOtherPlayer', { id, username })
     if (this.currentPlayerState.id === id) return
     this.otherPlayers[id] = this.physics.add.sprite(x, y, 'player', 1)
     this.createPlayerLabel(this.otherPlayers[id], username || id)
   }
 
-  createPlayerLabel(player, value){
-    player.label = this.add.text(player.x, player.y, value, {fontSize: '15px', color: '#fff'})
+  createPlayerLabel(player, value) {
+    player.label = this.add.text(player.x, player.y, value, { fontSize: '15px', color: '#fff' })
     this.positionPlayerLabel(player)
   }
 
-  positionPlayerLabel(player){
+  positionPlayerLabel(player) {
     player.label.x = player.x - 25
     player.label.y = player.y - 25
   }
