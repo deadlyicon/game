@@ -1,5 +1,6 @@
 import wait from '../lib/wait.js'
 import gun, { now } from './gun.js'
+import Phaser from 'phaser'
 
 export default class CurrentPlayer {
   constructor({ id, username }) {
@@ -13,7 +14,7 @@ export default class CurrentPlayer {
     })
   }
 
-  async init(){
+  async init() {
     if (this.ready) return
     console.log('CurrentPlayer init')
     console.log('CurrentPlayer loading player state')
@@ -32,21 +33,21 @@ export default class CurrentPlayer {
     this.gun.on(this._onStateChange)
   }
 
-  _onStateChange(state){
+  _onStateChange(state) {
     this.state = state
   }
 
-  get x(){ return this.state?.x }
-  get y(){ return this.state?.y }
+  get x() { return this.state?.x }
+  get y() { return this.state?.y }
 
-  async setState(changes = {}){
+  async setState(changes = {}) {
     this.state = await this.gun.put({
       lastUpdatedAt: now(),
       ...changes
     })
   }
 
-  async setPosition({ x, y }){
+  async setPosition({ x, y }) {
     await this.setState({ x, y })
   }
 

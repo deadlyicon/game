@@ -10,11 +10,11 @@ export { usePlayers, useCurrentPlayer }
 window.usePlayers = usePlayers
 window.useCurrentPlayer = useCurrentPlayer
 
-const fiveMinutesAgo = () => Date.now() - (1000 * 60 *  5)
+const fiveMinutesAgo = () => Date.now() - (1000 * 60 * 5)
 
 gun.get('players').map().on((player, id) => {
   if (player.lastUpdatedAt && player.lastUpdatedAt > fiveMinutesAgo()) {
-    usePlayers.setState({[id]: {...player, id}})
+    usePlayers.setState({ [id]: { ...player, id } })
   }
 })
 
@@ -22,18 +22,18 @@ onAuthChange(currentUser => {
   setCurrentPlayer(currentUser)
 })
 
-function setCurrentPlayer(currentUser){
+function setCurrentPlayer(currentUser) {
   useCurrentPlayer.setState(
     user.is ? new CurrentPlayer(currentUser) : null,
     true
   )
 }
 
-export function getCurrentPlayer(){
+export function getCurrentPlayer() {
   return useCurrentPlayer.getState()
 }
 
-export function subPlayers(handler){
+export function subPlayers(handler) {
   handler(usePlayers.getState)
   return usePlayers.subscribe(handler)
 }

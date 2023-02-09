@@ -25,3 +25,12 @@ if you get weird build errors
 rm -rf .parcel-cache
 // restart the dev server
 ```
+
+game
+- CurrentPlayer/OtherPlayer
+    movement 
+    animations
+    position
+    attributes health, etc
+- Weapon 
+    attributes(holding,attack type)
