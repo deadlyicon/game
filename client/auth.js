@@ -1,6 +1,6 @@
 import React from 'react'
 import createStore from './store.js'
-import gun from './gun.js'
+import gun from './state/gun.js'
 
 const user = gun.user()
 user.recall({ sessionStorage: true })

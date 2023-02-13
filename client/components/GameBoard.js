@@ -1,7 +1,7 @@
 import React from 'react'
 import sortBy from 'lodash/sortBy'
-import { createGame } from '../game.ts'
-import { usePlayers, useCurrentPlayer } from '../players.js'
+import { createGame } from '../game/game.ts'
+import { usePlayers, useCurrentPlayer } from '../state/players.js'
 
 export default function GameBoard(){
   const boardRef = React.useRef()

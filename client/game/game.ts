@@ -1,10 +1,10 @@
 import 'phaser'
-import { getCurrentPlayer, subPlayers } from './players.js'
+import { getCurrentPlayer, subPlayers } from '../state/players.js'
 
-import tilemapPacked from 'raw:./assets/tilemap/tilemap_packed.png'
-import level1 from 'raw:./assets/level1.json'
-import spaceman from 'raw:./assets/sprites/spaceman.png'
-import sword from 'raw:./assets/sprites/sword.png'
+import tilemapPacked from 'raw:../assets/tilemap/tilemap_packed.png'
+import level1 from 'raw:../assets/level1.json'
+import spaceman from 'raw:../assets/sprites/spaceman.png'
+import sword from 'raw:../assets/sprites/sword.png'
 import GameCharacter from './player'
 
 export function createGame({ domNode }) {

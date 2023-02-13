@@ -1,6 +1,7 @@
-import wait from '../lib/wait.js'
+import wait from '../../lib/wait.js'
 import gun, { now } from './gun.js'
 import Phaser from 'phaser'
+
 
 export default class CurrentPlayer {
   constructor({ id, username }) {
