@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -e
+set -x
+
+GUN_PREFIX=prod_v1 \
+GUN_SERVER=https://gun.jlinx.io/gun \
+exec ./scripts/build \
+--public-url "https://jaredatron.github.io/game/"
