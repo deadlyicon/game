@@ -1,4 +1,0 @@
-[submodule "gh-pages"]
-	path = build
-	url = git@github.com:deadlyicon/game.git
-	branch = gh-pages
