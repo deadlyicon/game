@@ -3,7 +3,14 @@
 set -e
 set -x
 
+(cd ./gh-pages && git reset && git rm -f $(git ls-tree HEAD --name-only))
+
 GUN_PREFIX=prod_v1 \
 GUN_SERVER=https://gun.jlinx.io/gun \
-exec ./scripts/build \
---public-url "https://jaredatron.github.io/game/"
+./scripts/build \
+  --dist-dir ./gh-pages \
+  --public-url "https://jaredatron.github.io/game/"
+
+NOW=$(date)
+(cd ./gh-pages && git add . && git ci -m "deploy $NOW")
+git commit -m "deploy $NOW" -- gh-pages
