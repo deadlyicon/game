@@ -1,14 +1,10 @@
 import 'phaser'
-import gun from './gun.js'
 import { getCurrentPlayer, subPlayers } from './players.js'
 
 import tilemapPacked from 'raw:./assets/tilemap/tilemap_packed.png'
-import level1Arena from 'raw:./assets/level1_arena.csv'
-import level1Background from 'raw:./assets/level1_background.csv'
 import level1 from 'raw:./assets/level1.json'
 import spaceman from 'raw:./assets/sprites/spaceman.png'
 import sword from 'raw:./assets/sprites/sword.png'
-import { Game } from 'phaser'
 import GameCharacter from './player'
 
 export function createGame({ domNode }) {
@@ -25,6 +21,10 @@ export function createGame({ domNode }) {
         gravity: { y: 0 }
       }
     },
+    fps: {
+      target: 120,
+      forceSetTimeOut: true
+    },
   }
   const game = new Phaser.Game(config)
   window.game = game
@@ -36,12 +36,11 @@ class MainScene extends Phaser.Scene {
   map: any
   cursors: any
   helpText: any
-  player: any
   currentPlayerState: any
   otherPlayersState: any
   otherPlayers: any
   showDebug = false
-  testPlayer: any
+  player: GameCharacter
 
   constructor() {
     super('MainScene')
@@ -86,12 +85,15 @@ class MainScene extends Phaser.Scene {
 
     this.cursors = this.input.keyboard.createCursorKeys()
 
-    this.testPlayer = new GameCharacter(this, 150, 150, this.currentPlayerState.id, this.cursors)
-    this.createPlayerLabel(this.testPlayer, this.currentPlayerState.username)
-
+    this.player = new GameCharacter(this, 150, 150, this.currentPlayerState.id, this.cursors)
+    this.createPlayerLabel(this.player, this.currentPlayerState.username)
     // Set up the player to collide with the tilemap layer. Alternatively, you can manually run
     // collisions in update via: this.physics.world.collide(player, layer).
-    this.physics.add.collider(this.testPlayer, arena)
+    this.physics.add.collider(this.player, arena)
+
+    // Setup Camera
+    this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels)
+    this.cameras.main.startFollow(this.player)
 
     this.helpText = this.add.text(16, 16, this.getHelpMessage(), {
       fontSize: '18px',
@@ -101,7 +103,6 @@ class MainScene extends Phaser.Scene {
   }
 
   update(time: number, delta: number): void {
-
     for (const id in this.otherPlayersState) {
       if (this.currentPlayerState.id === id) continue
       let otherPlayer = this.otherPlayers[id]
@@ -120,17 +121,17 @@ class MainScene extends Phaser.Scene {
     // }
 
 
-    this.testPlayer.checkMovement(this.cursors)
-    this.testPlayer.checkAttack(this.cursors)
+    this.player.checkMovement(this.cursors)
+    this.player.checkAttack(this.cursors)
 
-    this.positionPlayerLabel(this.testPlayer)
+    this.positionPlayerLabel(this.player)
 
     // TODO debounce
     this.emitNewPlayerPosition()
   }
 
   emitNewPlayerPosition() {
-    const { x, y } = this.testPlayer
+    const { x, y } = this.player
     if (
       x === this.currentPlayerState.x &&
       y === this.currentPlayerState.y
@@ -154,14 +155,14 @@ class MainScene extends Phaser.Scene {
   }
 
   getHelpMessage() {
-    return 'Arrow wasd to move.' +
-      '\nPress "C" to toggle debug visuals: ' + (this.showDebug ? 'on' : 'off')
+    return 'wasd to move. space to swing.\n' +
+      'c to show collidiers.'
   }
 
   createOtherPlayer(id, { x = 0, y = 0, username }) {
     console.log('createOtherPlayer', { id, username })
     if (this.currentPlayerState.id === id) return
-    this.otherPlayers[id] = new GameCharacter(this, 150, 150, id, this.cursors)
+    this.otherPlayers[id] = new GameCharacter(this, 150, 150, username, this.cursors)
     this.createPlayerLabel(this.otherPlayers[id], username || id)
   }
 

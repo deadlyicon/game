@@ -6,12 +6,12 @@
 pnpm install
 ```
 
-
 make a `.env` file like this:
 
 ```
 PORT=5100
 GUN_PREFIX=game_v1
+GUN_SERVER=game_v1_server
 ```
 
 start the app in dev mode
